@@ -21,7 +21,7 @@ class Viewproduct {
     }
     switch (condition) {
       case 1:
-        product.addProduct(ProductService.generateId());
+        Viewproduct.viewproduct();
         break;
       case 2:
         product.readAllProducts();
