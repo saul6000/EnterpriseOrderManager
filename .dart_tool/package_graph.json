@@ -1,0 +1,14 @@
+{
+  "roots": [
+    "enterpriseOrderManager"
+  ],
+  "packages": [
+    {
+      "name": "enterpriseOrderManager",
+      "version": "1.0.0",
+      "dependencies": [],
+      "devDependencies": []
+    }
+  ],
+  "configVersion": 1
+}

@@ -1,0 +1,7 @@
+name: enterpriseOrderManager
+
+version: 1.0.0
+
+environment: 
+  sdk: '^3.11.5'
+

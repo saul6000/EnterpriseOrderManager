@@ -1,0 +1,16 @@
+{
+  "configVersion": 2,
+  "packages": [
+    {
+      "name": "enterpriseOrderManager",
+      "rootUri": "../",
+      "packageUri": "lib/",
+      "languageVersion": "3.11"
+    }
+  ],
+  "generator": "pub",
+  "generatorVersion": "3.11.5",
+  "flutterRoot": "file:///C:/Users/Saul/Documents/flutter",
+  "flutterVersion": "3.41.9",
+  "pubCache": "file:///C:/Users/Saul/AppData/Local/Pub/Cache"
+}
