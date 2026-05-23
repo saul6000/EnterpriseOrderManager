@@ -1,8 +1,8 @@
 void main(){
 
   do{
-    print("");
-    print("1. Agregar productos");
+    print("Elija la operacion que quiere realizar");
+    print("1. Productos");
     print("2. Buscar Productos");
     print("3. Registrar Cliente");
     print("4. Crear Pedidos");

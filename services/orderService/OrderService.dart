@@ -11,7 +11,7 @@ import '../Conditions.dart';
 
 class Orderservice {
   final Repository _repository = RepositoryOrder();
-
+/////////////////////////////////////////////////////////////////////////////
   //Imprimir la petición con id usado para esta misma clase para
   //mostrar en la funcion de actualización el objeto a modificar.
   void printOrderWithId(String id) {
@@ -42,7 +42,7 @@ class Orderservice {
       },
     });
   }
-
+///////////////////////////////////////////////////////////////////////////////
   //Mostrar un producto
   void readProduct() {
     print("Ingrese el id de la peticion que esta buscando");
@@ -81,14 +81,14 @@ class Orderservice {
     });
     print("\n");
   }
-
+////////////////////////////////////////////////////////////////////////////////////////////
   //Mostrar todas las peticiones
   void readAllOrders() {
     print("\n");
     _repository.readAll();
     print("\n");
   }
-
+/////////////////////////////////////////////////////////////////////////////////////////////
   //Agregar una peticion
   void addOrder(String id) {
     print("Ingrese los datos de la petición");
