@@ -2,7 +2,7 @@ import 'dart:io';
 
 import '../../model/Product.dart';
 import '../../repository/RepositoryProducts.dart';
-import '../conditions.dart';
+import '../Conditions.dart';
 
 class ProductService {
   final RepositoryProducts _repository = RepositoryProducts();
