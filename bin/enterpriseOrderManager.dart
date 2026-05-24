@@ -15,7 +15,7 @@ void main(){
     choice=int.tryParse(stdin.readLineSync()!);
     if(choice==null){
       print("Opcion no valida");
-      return main();
+      continue;
     }
     switch(choice){
       case 1: ViewProduct.optionsProduct();
