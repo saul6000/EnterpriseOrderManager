@@ -1,7 +1,10 @@
-void main(){
+import 'dart:io';
 
+import '../view/viewProduct/ViewProduct.dart';
+void main(){
+ int? choice;
   do{
-    print("Elija la operacion que quiere realizar");
+    print("Elija la operación que quiere realizar");
     print("1. Productos");
     print("2. Buscar Productos");
     print("3. Registrar Cliente");
@@ -9,12 +12,17 @@ void main(){
     print("5. Obtener ventas totales");
     print("6. Obtener Productos mas vendidos");
     print("7. Exportar Reporte");
-    int choice=0;
+    choice=int.tryParse(stdin.readLineSync()!);
+    if(choice==null){
+      print("Opcion no valida");
+      return;
+    }
     switch(choice){
-      
+      case 1: ViewProduct.optionsProduct();
+      case 9:print("Gracias por usar nuestro servicio!!!")
     }
 
-  }while(true);
+  }while(choice!=9);
 }
 void addProduct(String generateId){
   

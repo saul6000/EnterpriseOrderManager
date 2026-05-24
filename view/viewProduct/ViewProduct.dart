@@ -2,8 +2,8 @@ import 'dart:io';
 
 import '../../services/productService/ProductService.dart';
 
-class Viewproduct {
-  static void viewproduct(){
+class ViewProduct {
+  static void optionsProduct(){
   int? condition;
   var product = ProductService();
   do {
@@ -21,7 +21,8 @@ class Viewproduct {
     }
     switch (condition) {
       case 1:
-        Viewproduct.viewproduct();
+
+        product.addProduct(ProductService.generateId());
         break;
       case 2:
         product.readAllProducts();
