@@ -1,5 +1,4 @@
 import '../model/Client.dart';
-import '../model/Order.dart';
 import 'Repository.dart';
 
 class RepositoryClients extends Repository {
