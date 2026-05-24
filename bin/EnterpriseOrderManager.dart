@@ -19,7 +19,7 @@ void main(){
     }
     switch(choice){
       case 1: ViewProduct.optionsProduct();
-      case 9:print("Gracias por usar nuestro servicio!!!")
+      case 9:print("Gracias por usar nuestro servicio!!!");
     }
 
   }while(choice!=9);
