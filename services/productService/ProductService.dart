@@ -51,7 +51,8 @@ class ProductService {
   void addProduct(String id) {
     print("Ingrese los datos del producto");
     print("Ingrese el nombre");
-    String? name = stdin.readLineSync() ?? " ";
+    
+    String? name = stdin.readLineSync() ?? "";
     print("Ingrese el precio");
     double? price = double.tryParse(stdin.readLineSync()!);
     if(price==null){
@@ -87,6 +88,7 @@ class ProductService {
     )) {
       print("Ingresa el nuevo nombre del producto");
       String? newName = stdin.readLineSync();
+      
 
       if (!Conditions.isEmptyProperty(newName, "No ingresaste un nombre!!!")) {
         refProduct.name = newName!;
