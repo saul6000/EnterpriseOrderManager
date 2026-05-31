@@ -27,7 +27,7 @@ class ProductService {
     print("Ingresa el id del producto que estas buscando");
 
     String? id = stdin.readLineSync()!;
-     print("\n");
+    print("\n");
     var refProduct = _repository.read(id)!;
     print({
       "${refProduct.id}": {
@@ -42,7 +42,7 @@ class ProductService {
 
   //Mostrar todos los productos
   void readAllProducts() {
-     print("\n");
+    print("\n");
     _repository.readAll();
     print("\n");
   }
@@ -51,11 +51,16 @@ class ProductService {
   void addProduct(String id) {
     print("Ingrese los datos del producto");
     print("Ingrese el nombre");
-    
+
     String? name = stdin.readLineSync() ?? "";
+    if (name == "") {
+      print("Campo nombre obligatorio");
+      return;
+    }
+
     print("Ingrese el precio");
     double? price = double.tryParse(stdin.readLineSync()!);
-    if(price==null){
+    if (price == null) {
       print("Precio no valido");
       return;
     }
@@ -63,9 +68,9 @@ class ProductService {
     int stock = int.parse(stdin.readLineSync() ?? "0");
     _repository.add(
       id,
-      Product(id: id, name: name, price: price, stock: stock),
+      Product(id: id, name: name.trim(), price: price, stock: stock),
     );
-     print("\n");
+    print("\n");
     print("Agregaste un producto\n");
   }
 
@@ -81,14 +86,13 @@ class ProductService {
     }
     print("Elija que quiere cambiar del producto");
     //Se imprime el objeto en este caso producto antes de ser modificado
-     print("\n");
+    print("\n");
     printProductWithId(id);
     if (Conditions.changeACamp(
       "\nEscriba si o no para cambiar el nombre del producto",
     )) {
       print("Ingresa el nuevo nombre del producto");
       String? newName = stdin.readLineSync();
-      
 
       if (!Conditions.isEmptyProperty(newName, "No ingresaste un nombre!!!")) {
         refProduct.name = newName!;
@@ -121,16 +125,16 @@ class ProductService {
   void deleteProduct() {
     print("Ingresa el id del producto a eliminar");
     String? id = stdin.readLineSync();
-       if(id==null || id.isEmpty){
+    if (id == null || id.isEmpty) {
       print("Id no valido");
       return;
     }
-    if (_repository.read(id) !=null) {
-     _repository.delete(id);
-     print("Producto eliminado\n");
+    if (_repository.read(id) != null) {
+      _repository.delete(id);
+      print("Producto eliminado\n");
       return;
     }
-     print("\n");
+    print("\n");
     print("Producto no eliminado\n");
     return;
   }
@@ -142,6 +146,4 @@ class ProductService {
   }
 }
 
-void main() {
- 
-}
+void main() {}

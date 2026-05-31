@@ -5,9 +5,10 @@ import '../../model/ClientType.dart';
 import '../../repository/Repository.dart';
 import '../../repository/RepositoryClients.dart';
 import '../Conditions.dart';
+import '../generator/Generator.dart';
 import '../productService/ProductService.dart';
 
-class Clientservice {
+class ClientService {
   final Repository _repository = RepositoryClients();
   //Imprimir el producto con id usado para esta misma clase para mostrar en
   //actualizacion el objeto a modificar
@@ -22,14 +23,14 @@ class Clientservice {
         "type": refClient.clientType.name,
       },
     });
-     print("\n");
+    print("\n");
   }
 
   //Mostrar un cliente
   void readClient() {
     print("Ingrese el id del cliente que estas buscando");
     String? id = stdin.readLineSync()!;
-     print("\n");
+    print("\n");
     Client? refClient = _repository.read(id);
     if (refClient == null) {
       print("No existe ese cliente");
@@ -40,21 +41,21 @@ class Clientservice {
         "id": refClient.id,
         "name": refClient.name,
         "email": refClient.email,
-        "type": refClient.clientType.name
+        "type": refClient.clientType.name,
       },
     });
-     print("\n");
+    print("\n");
   }
 
   //Mostrar todos los clientes
   void readAllClients() {
-     print("\n");
+    print("\n");
     _repository.readAll();
-  print("\n");
+    print("\n");
   }
 
   //Agregar un cliente
-  void addClient(String id) {
+  void addClient() {
     print("Ingrese los datos del cliente");
     print("Ingrese el nombre completo del cliente");
     String? name = stdin.readLineSync();
@@ -71,13 +72,14 @@ class Clientservice {
       print("No ha ingresado ningun tipo de cliente");
       return;
     }
+    String id = Generator.generatorId(RepositoryClients.clients.length);
     ClientType type = ClientType.values.byName(_whatIsTypeClient(typeStr));
     _repository.add(
       id,
       Client(id: id, name: name, email: email, clientType: type),
     );
-     print("\n");
-     print("Agregaste un cliente");
+    print("\n");
+    print("Agregaste un cliente");
   }
 
   //Actualizar un cliete
@@ -133,23 +135,24 @@ class Clientservice {
     print("Cliente actualizado\n");
   }
 
-  //Eliminar un cliente 
-  void deleteClient(){
+  //Eliminar un cliente
+  void deleteClient() {
     print("Ingresa el id del cliente a eliminar");
-    String? id= stdin.readLineSync();
-    if(id==null || id.isEmpty){
+    String? id = stdin.readLineSync();
+    if (id == null || id.isEmpty) {
       print("Id no valido");
       return;
     }
-    if(_repository.read(id)!=null){
+    if (_repository.read(id) != null) {
       _repository.delete(id);
       print("Cliente eliminado");
       return;
     }
-     print("\n");
+    print("\n");
     print("Cliente no eliminado");
     return;
   }
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //condicion de tipo de cliente como no es algo general lo pongo como una funcion local
   _whatIsTypeClient(String type) {
@@ -178,36 +181,3 @@ class Clientservice {
     return false;
   }
 }
-void main(){
-   int condition = 0;
-  var client = Clientservice();
-  do {
-    print("Elija la opcion a realizar");
-    print("1. Crear un cliente");
-    print("2. Ver todo los clientes");
-    print("3. Ver un cliente");
-    print("4. Actualizar un cliente");
-    print("5. Eliminar un cliente");
-    condition = int.parse(stdin.readLineSync() ?? "12");
-    switch (condition) {
-      case 1:
-        client.addClient(ProductService.generateId());
-        break;
-      case 2:
-        client.readAllClients();
-        break;
-      case 3:
-        client.readClient();
-        break;
-      case 4:
-        client.updateClient();
-        break;
-      case 5:
-        client.deleteClient();
-        break;
-      default:
-        print("");
-    }
-  } while (condition != 9);
-}
-

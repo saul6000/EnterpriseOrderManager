@@ -3,6 +3,7 @@ import 'dart:io';
 import '../../model/Client.dart';
 import '../../model/Order.dart';
 import '../../model/Product.dart';
+import '../../model/StateOrder.dart';
 import '../../repository/Repository.dart';
 import '../../repository/RepositoryClients.dart';
 import '../../repository/RepositoryOrder.dart';
@@ -11,7 +12,7 @@ import '../Conditions.dart';
 
 class Orderservice {
   final Repository _repository = RepositoryOrder();
-/////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////
   //Imprimir la petición con id usado para esta misma clase para
   //mostrar en la funcion de actualización el objeto a modificar.
   void printOrderWithId(String id) {
@@ -20,7 +21,7 @@ class Orderservice {
     print({
       "${refOrder.id}": {
         "Cliente": {
-          "Id del cliente":refOrder.client.id,
+          "Id del cliente": refOrder.client.id,
           "Nombre del cliente": refOrder.client.name,
           "Tipo de cliente": refOrder.client.clientType.name,
         },
@@ -29,7 +30,7 @@ class Orderservice {
             for (var properties in refOrder.products)
               {
                 print({
-                  "Id":properties.id,
+                  "Id": properties.id,
                   "Nombre del producto": properties.name,
                   "Precio": properties.price,
                 }),
@@ -42,7 +43,8 @@ class Orderservice {
       },
     });
   }
-///////////////////////////////////////////////////////////////////////////////
+
+  ///////////////////////////////////////////////////////////////////////////////
   //Mostrar un producto
   void readProduct() {
     print("Ingrese el id de la peticion que esta buscando");
@@ -81,53 +83,86 @@ class Orderservice {
     });
     print("\n");
   }
-////////////////////////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////////////////////////////////
   //Mostrar todas las peticiones
   void readAllOrders() {
     print("\n");
     _repository.readAll();
     print("\n");
   }
-/////////////////////////////////////////////////////////////////////////////////////////////
+
+  /////////////////////////////////////////////////////////////////////////////////////////////
   //Agregar una peticion
-  void addOrder(String id) {
+  void addOrder() {
+    Order refOrder = Order();
     print("Ingrese los datos de la petición");
     print("Ingrese el id del cliente que hace la peticion");
-    Client? client = RepositoryClients.clients[id];
+    String? idClient = stdin.readLineSync();
+    if (idClient == null) {
+      print("El id del cliente no es valido");
+      return;
+    }
+    Client? client = RepositoryClients.clients[idClient];
     if (client == null) {
-      print("No existe el tipo de cliente");
+      print("No existe el cliente");
       return;
     }
-    bool condition = true;
-    List<Product> addProducts = [];
-
-    print("Ingresa el id del producto que va pedir el cliente");
+    refOrder.client = RepositoryClients.clients[idClient];
+    print("Ingresa el id del producto");
     String? idProduct = stdin.readLineSync();
-    _foundProduct(id, addProducts: addProducts);
-    while (Conditions.changeACamp(
-      "Ingresa si o no si quieres agregar otro producto",
-    )) {
-      print("Ingresa el id del producto");
-      idProduct = stdin.readLineSync();
-      _foundProduct(id, addProducts: addProducts);
+    if (idProduct == null) {
+      print("El id del producto no es valido!!!");
     }
-    print("Ingresa la cantidad de producto pedido");
-    int? quantities = int.tryParse(stdin.readLineSync()!);
-    if(quantities ==null){
-      print("Cantidad no valida de stock");
+    if (_foundProduct(idProduct)) {
+      print("El producto no existe");
       return;
     }
-    
+    refOrder.products = RepositoryProducts.products[idProduct];
+
+    int? quantities = int.tryParse(stdin.readLineSync()!);
+    if (quantities == null) {
+      print("La cantidad no es valida!!!");
+      return;
+    }
+    if (quantities > RepositoryProducts.products[idProduct].stock) {
+      print("La cantidad excede el limite de stock");
+      quantities = 0;
+      return;
+    }
+    refOrder.quantities = quantities;
+    refOrder.date = DateTime.now();
+    print("Ingrese el estado del pedido (earring, paid, sent, canceled)");
+    String? stateOrder = stdin.readLineSync();
+    if (stateOrder == null) {
+      print("El estado del pedido no es valido!!!");
+      return;
+    }
+    if (_whatIsTypeStateOrder(stateOrder) == 0) {
+      return;
+    }
+    refOrder.stateOrder = StateOrder.values.byName(stateOrder);
+    print("Pedido guardado exitosamente!!!");
   }
 
   /////////////////////////////////////////////////////////////////////////////////
   //Condicion que ve si el producto existe o no
 
-  _foundProduct(String id,{required List<Product> addProducts}) {
+  _foundProduct(String? id) {
     if (RepositoryProducts.products[id] == null) {
-      print("No existe ese producto");
-      return;
+      return true;
     }
-    addProducts.add(RepositoryProducts.products[id]);
+    return false;
+  }
+
+  _whatIsTypeStateOrder(String type) {
+    for (var typeB in StateOrder.values) {
+      if (typeB.name.compareTo(type) == 0) {
+        return typeB.name;
+      }
+    }
+    print("No existe ese tipo de estado del pedio");
+    print("Ingrese uno valido");
+    return 0;
   }
 }
